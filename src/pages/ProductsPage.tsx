@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import ProductsList from "mf_products/ProductsList";
+import ProductsList from "mfProducts/ProductsList";
 
 const ProductsPage: React.FC = () => {
   return (

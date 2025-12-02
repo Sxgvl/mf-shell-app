@@ -1,71 +1,50 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const ModuleFederationPlugin = require("webpack").container.ModuleFederationPlugin;
-const path = require("path");
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ModuleFederationPlugin = require('webpack').container.ModuleFederationPlugin;
 
 module.exports = {
-  entry: "./src/index.tsx",
-  mode: "development",
+  mode: 'development',
+  entry: './src/index.tsx',
+  devtool: 'source-map',
   devServer: {
-    port: 3000,
+    port: 3001,
     historyApiFallback: true,
-    static: path.join(__dirname, "dist"),
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "*",
-    },
+    open: false,
   },
-  output: {
-    publicPath: "auto",
+  resolve: {
+    extensions: ['.tsx', '.ts', '.js', '.jsx'],
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx|ts|tsx)$/,
+        test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         use: {
-          loader: "babel-loader",
+          loader: 'babel-loader',
           options: {
             presets: [
-              "@babel/preset-env",
-              "@babel/preset-react",
-              "@babel/preset-typescript"
+              '@babel/preset-env',
+              '@babel/preset-react',
+              '@babel/preset-typescript',
             ],
           },
         },
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader", "postcss-loader"],
+        use: ['style-loader', 'css-loader', 'postcss-loader'],
       },
     ],
   },
   plugins: [
     new ModuleFederationPlugin({
-      name: "shell",
+      name: 'shell',
       remotes: {
-        mf_users: "mf_users@http://localhost:3001/remoteEntry.js",
-        mf_products: "mf_products@http://localhost:3002/remoteEntry.js",
-      },
-      shared: {
-        react: {
-          singleton: true,
-          requiredVersion: "^18.2.0",
-        },
-        "react-dom": {
-          singleton: true,
-          requiredVersion: "^18.2.0",
-        },
-        "react-router-dom": {
-          singleton: true,
-          requiredVersion: "^6.18.0",
-        },
+        mfProducts: 'mfProducts@http://localhost:3002/remoteEntry.js',
+        mfUsers: 'mfUsers@http://localhost:3003/remoteEntry.js',
       },
     }),
     new HtmlWebpackPlugin({
-      template: "./public/index.html",
+      template: './public/index.html',
     }),
   ],
-  resolve: {
-    extensions: [".ts", ".tsx", ".js", ".jsx"],
-  },
 };

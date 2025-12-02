@@ -1,3 +1,6 @@
+# Documentation locale à ne pas pusher
+*_DOC.md
+
 # Logs
 logs
 *.log

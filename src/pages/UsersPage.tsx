@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import UsersList from "mf_users/UsersList";
+import UsersList from "mfUsers/UsersList";
 
 const UsersPage: React.FC = () => {
   return (
